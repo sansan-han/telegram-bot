@@ -2,7 +2,21 @@ from openai import OpenAI
 from pathlib import Path
 import os
 import json
-from config import api_key, base_url, model, voice, role
+try:
+    from config import base_url, model, voice, role
+except ImportError as e:
+    # 如果不想程序因配置错误而停止，可以设置默认值
+    base_url = "https://api.openai.com/v1"
+    model = "gpt-3.5-turbo"
+    voice = "onyx"
+    role = "you are a helpful assistant!"
+    # 或者，如果你想让程序因为缺少配置而停止，可以取消下面的注释
+    # raise ImportError("Could not import settings from config.py") from e
+try:
+    from config import api_key
+except ImportError as e:
+    raise ImportError("INVALID API_KEY") from e
+
 client = OpenAI(
     api_key=api_key,
     base_url=base_url

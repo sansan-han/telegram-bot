@@ -3,25 +3,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 from config import TOKEN, REQUEST_KWARGS
 from telegram.utils.request import Request
-from pathlib import Path
-import handlers.handler as hd
-import os
-from datetime import datetime
+import bot.handlers.handler as hd
 
-# 定义存储路径
-voice_folder = Path(__file__).parent / "voice"
-answer_folder = Path(__file__).parent / "answer"
-
-# 创建文件夹如果它们不存在
-os.makedirs(voice_folder, exist_ok=True)
-os.makedirs(answer_folder, exist_ok=True)
-
-# 生成基于当前时间戳的文件名
-timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-voice_file_name = f"{timestamp}.ogg"
-answer_file_name = f"{timestamp}.ogg"
-voice_file_path = voice_folder / voice_file_name
-answer_file_path = answer_folder / answer_file_name
 # 配置日志记录
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)

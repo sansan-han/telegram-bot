@@ -3,8 +3,15 @@ from telegram import Update
 from telegram.ext import CallbackContext
 import os
 import json
-import utils.module as md
+import bot.utils.module as md
 import time
+try:
+    from config import max_context_limit
+except ImportError as e:
+    # 如果不想程序因配置错误而停止，可以设置默认值
+    max_context_limit = 20  # 默认值
+    # 或者，如果你想让程序因为缺少配置而停止，可以取消下面的注释
+    # raise ImportError("Could not import settings from config.py") from e
 
 
 def save_media(media, media_type, user_id):
@@ -13,10 +20,9 @@ def save_media(media, media_type, user_id):
         os.makedirs(user_media_dir)
 
     # 为文件生成唯一的名称
-    file_name = f'{media_type}_{int(time.time())}'
+    file_name = f'{media_type}_{int(time.time())}.ogg'
     file_path = os.path.join(user_media_dir, file_name)
 
-    # 假设 'media' 是你从 Telegram API 接收到的文件对象
     media.download(file_path)
 
     return file_path
@@ -29,7 +35,7 @@ def save_content(media_content, media_type, user_id):
         os.makedirs(user_media_dir)
 
     # 为文件生成唯一的名称
-    file_name = f'{media_type}_{int(time.time())}.ogg'  # 假设是 .ogg 文件
+    file_name = f'{media_type}_{int(time.time())}.ogg'
     file_path = os.path.join(user_media_dir, file_name)
 
     # 写入文件
@@ -41,7 +47,7 @@ def save_content(media_content, media_type, user_id):
 class UserSession:
     def __init__(self, user_id):
         self.user_id = user_id
-        self.messages = []  # 存储消息历史
+        self.messages = []
         self.context = ""
         user_media_dir = f'context/{user_id}'
         if not os.path.exists(user_media_dir):
@@ -64,7 +70,7 @@ class UserSession:
 
     def trim_context(self):
         # 如果需要，可以在这里限制上下文的大小
-        max_context_length = 20  # 假设我们只保留最后20条消息
+        max_context_length = max_context_limit
         self.context = self.context[-max_context_length:]
 
     def save_context(self):

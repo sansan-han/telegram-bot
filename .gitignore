@@ -1,0 +1,14 @@
+*.log
+temp/
+*.class
+
+*.conf
+!*.example
+
+.env
+!.env.example
+
+context
+
+media
+
