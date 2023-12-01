@@ -3,8 +3,8 @@
 TOKEN = '5737847651:AAF1ZUqhMXfiWgi-tKhIodptISo9SwW6y_g'
 api_key = 'sk-1NhZl248eEDdB0454BAbT3BLbkFJEB661cec99274eD58C61'
 base_url = 'https://aigptx.top/v1'
-model = 'gpt-3.5-turbo'  # 模型配置
-voice = 'onyx'  # 音色配置，可选：
+model = 'gpt-4-1106-preview'  # 模型配置
+voice = 'nova'  # Supported voices are alloy, echo, fable, onyx, nova, and shimmer.
 role = "you are a helpful assistant "  # role配置
 REQUEST_KWARGS = {
     'con_pool_size': 8,  # 设置连接池大小
